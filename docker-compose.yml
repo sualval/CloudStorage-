@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  database:
+    image: postgres
+    container_name: "diploma_database"
+    ports:
+      - 5433:5432
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+
+  app:
+    image: diploma:latest
+    container_name: "diploma"
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+
+
+
